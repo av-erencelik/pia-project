@@ -1,0 +1,45 @@
+version: "3"
+services:
+  product-postgresql:
+    image: postgres:latest
+    container_name: product-postgresql
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=products
+  order-postgresql:
+    image: postgres:latest
+    container_name: order-postgresql
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orders
+  delivery-postgresql:
+    image: postgres:latest
+    container_name: delivery-postgresql
+    ports:
+      - 5434:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=deliveries
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - 6379:6379
+    environment:
+      - REDIS_PASSWORD=secret
+  rabbitmq:
+    image: "heidiks/rabbitmq-delayed-message-exchange:latest"
+    container_name: rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_PASS=secret"
+      - "RABBITMQ_DEFAULT_USER=myuser"
+    ports:
+      - 5672:5672
+      - 15672:15672

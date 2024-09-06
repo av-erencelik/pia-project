@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delivery-postgres
+  labels:
+    app: delivery-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delivery-postgres
+  template:
+    metadata:
+      labels:
+        app: delivery-postgres
+    spec:
+      containers:
+        - name: delivery-postgres
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: deliveries
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delivery-postgres
+  labels:
+    app: delivery-postgres
+spec:
+  selector:
+    app: delivery-postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: LoadBalancer

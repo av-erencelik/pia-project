@@ -1,0 +1,117 @@
+version: "3"
+services:
+  product-service:
+    container_name: product-service
+    build:
+      context: .
+      dockerfile: Product.Dockerfile
+    ports:
+      - 8080
+    depends_on:
+      - product-postgresql
+      - redis
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://product-postgresql:5432/products
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_DATA_REDIS_HOST=redis
+      - SERVER_PORT=8080
+  order-service:
+    container_name: order-service
+    build:
+      context: .
+      dockerfile: Order.Dockerfile
+    ports:
+      - 8080
+    depends_on:
+      - order-postgresql
+      - redis
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://order-postgresql:5432/orders
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SERVER_PORT=8080
+  delivery-service:
+    container_name: delivery-service
+    build:
+      context: .
+      dockerfile: Delivery.Dockerfile
+    ports:
+      - 8080
+    depends_on:
+      - delivery-postgresql
+      - redis
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://delivery-postgresql:5432/deliveries
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_DATA_REDIS_HOST=redis
+      - SERVER_PORT=8080
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: Gateway.Dockerfile
+    ports:
+      - 8080:8080
+    depends_on:
+      - product-service
+      - order-service
+      - delivery-service
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_CLOUD_GATEWAY_ROUTES_0_ID=product-service
+      - SPRING_CLOUD_GATEWAY_ROUTES_0_URI=http://product-service:8080
+      - SPRING_CLOUD_GATEWAY_ROUTES_0_PREDICATES_0=Path=/products/**
+      - SPRING_CLOUD_GATEWAY_ROUTES_0_FILTERS_0=StripPrefix=1
+      - SPRING_CLOUD_GATEWAY_ROUTES_1_ID=order-service
+      - SPRING_CLOUD_GATEWAY_ROUTES_1_URI=http://order-service:8080
+      - SPRING_CLOUD_GATEWAY_ROUTES_1_PREDICATES_0=Path=/orders/**
+      - SPRING_CLOUD_GATEWAY_ROUTES_1_FILTERS_0=StripPrefix=1
+      - SPRING_CLOUD_GATEWAY_ROUTES_2_ID=delivery-service
+      - SPRING_CLOUD_GATEWAY_ROUTES_2_URI=http://delivery-service:8080
+      - SPRING_CLOUD_GATEWAY_ROUTES_2_PREDICATES_0=Path=/deliveries/**
+      - SPRING_CLOUD_GATEWAY_ROUTES_2_FILTERS_0=StripPrefix=1
+  product-postgresql:
+    image: postgres:latest
+    container_name: product-postgresql
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=products
+  order-postgresql:
+    image: postgres:latest
+    container_name: order-postgresql
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orders
+  delivery-postgresql:
+    image: postgres:latest
+    container_name: delivery-postgresql
+    ports:
+      - 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=deliveries
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - 6379
+    environment:
+      - REDIS_PASSWORD=secret
+  rabbitmq:
+    image: "heidiks/rabbitmq-delayed-message-exchange:latest"
+    container_name: rabbitmq
+    environment:
+      - "RABBITMQ_DEFAULT_PASS=secret"
+      - "RABBITMQ_DEFAULT_USER=myuser"
+    ports:
+      - 5672
+      - 15672
