@@ -21,6 +21,7 @@ class LoadDatabase {
                 log.info("Preloading " + repository.save(new Food("Lahmacun", 20, 2)));
                 log.info("Preloading " + repository.save(new Food("Kebab", 30, 3)));
                 log.info("Preloading " + repository.save(new Food("Baklava", 40, 4)));
+                log.info("Preloading " + repository.save(new Food("Kunefe", 50, 5)));
             }
 
         };
