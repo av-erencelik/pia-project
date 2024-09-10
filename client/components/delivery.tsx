@@ -39,7 +39,7 @@ const Delivery = ({ className, delivery, ...props }: CardProps) => {
         if (prevTime === 0) {
           clearInterval(timerInterval);
           // Perform actions when the timer reaches zero
-          console.log("Countdown complete!");
+          console.log("Countdown complete");
           return 0;
         } else {
           return prevTime! - 1;
