@@ -16,10 +16,11 @@ class LoadDatabase {
     @Bean
     CommandLineRunner initDatabase(FoodRepository repository) {
         return args -> {
-            if(repository.count() < 3) {
+            if(repository.count() < 4) {
                 log.info("Preloading " + repository.save(new Food("Pide", 10, 5)));
                 log.info("Preloading " + repository.save(new Food("Lahmacun", 20, 2)));
                 log.info("Preloading " + repository.save(new Food("Kebab", 30, 3)));
+                log.info("Preloading " + repository.save(new Food("Baklava", 40, 4)));
             }
 
         };
