@@ -25,6 +25,18 @@ spec:
               value: "secret"
             - name: RABBITMQ_DEFAULT_USER
               value: "myuser"
+
+        # RabbitMQ Exporter sidecar container
+        - name: rabbitmq-exporter
+          image: kbudde/rabbitmq-exporter:latest
+          ports:
+            - containerPort: 15692
+          env:
+            - name: RABBIT_URL
+              value: "http://localhost:15672"
+          # Optional environment variables for additional configuration
+          # Refer to rabbitmq-exporter documentation for more options
+
 ---
 apiVersion: v1
 kind: Service
@@ -44,4 +56,8 @@ spec:
       name: management
       port: 15672
       targetPort: 15672
+    - protocol: TCP
+      name: exporter
+      port: 15692
+      targetPort: 15692 # Expose the exporter port for Prometheus scraping
   type: LoadBalancer

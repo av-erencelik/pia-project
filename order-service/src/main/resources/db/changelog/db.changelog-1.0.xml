@@ -22,6 +22,9 @@
             <column name="status" type="order_status" defaultValue="CREATED">
                 <constraints nullable="false" />
             </column>
+            <column name="is_refunded" type="BOOLEAN" defaultValue="false">
+                <constraints nullable="false" />
+            </column>
         </createTable>
 
         <createTable tableName="order_item">

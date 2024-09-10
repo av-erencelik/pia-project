@@ -40,6 +40,9 @@ public class Order {
     @OneToMany(mappedBy = "orderId", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;
 
+    @Column(name = "is_refunded", nullable = false)
+    private Boolean isRefunded = false;
+
     public Order(double totalPrice, OrderStatus status) {
         this.totalPrice = totalPrice;
         this.status = status;

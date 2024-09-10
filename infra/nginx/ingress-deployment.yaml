@@ -4,6 +4,7 @@ metadata:
   name: ingress
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
     - host: api.piaproject.com
@@ -14,5 +15,15 @@ spec:
             backend:
               service:
                 name: api-gateway
+                port:
+                  number: 80
+    - host: piaproject.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: client
                 port:
                   number: 80

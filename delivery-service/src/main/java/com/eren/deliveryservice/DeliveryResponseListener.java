@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.eren.deliveryservice.events.OrderCancelled;
 import com.eren.deliveryservice.events.OrderCreated;
-import com.eren.deliveryservice.model.DeliveryStatus;
 import com.eren.deliveryservice.model.Driver;
 
 import lombok.AllArgsConstructor;
@@ -26,17 +25,15 @@ public class DeliveryResponseListener {
     @RabbitListener(queues = "delivery-expiration-queue")
     public void receiveDeliveryExpiration(UUID deliveryId) {
         System.out.println("Delivery expired: " + deliveryId);
-        DeliveryStatus status = deliveryService.getDeliveryStatus(deliveryId);
-        if (status == DeliveryStatus.ON_DELIVERY) {
-            deliveryService.cancelDelivery(deliveryId);
-        }
+        deliveryService.handleLateDelivery(deliveryId);
     }
 
     @RabbitHandler
     public void handleDriverAvailableMessage(UUID driverId) {
         System.out.println("Driver available: " + driverId);
         boolean isDriverAvailable = deliveryService.checkDriverAvailability(driverId);
-        if (isDriverAvailable && redisService.getQueueSize().orElse(0L) > 0) {
+        System.out.println("Driver available: " + redisService.getQueueSize());
+        if (redisService.getQueueSize().orElse(0L) > 0) {
             UUID deliveryId = redisService.getNextDelivery().map(UUID::fromString).orElseThrow();
             deliveryService.attachDriverToDelivery(deliveryId, driverId);
         }

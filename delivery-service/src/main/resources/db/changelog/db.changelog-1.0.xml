@@ -44,6 +44,9 @@
             <column name="status" type="delivery_status" defaultValue="PREPARING">
                 <constraints nullable="false"/>
             </column>
+            <column name="on_time" type="BOOLEAN" defaultValue="true">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -46,8 +46,11 @@ public class Delivery {
     @Column(name = "expiration_date", nullable = true, columnDefinition = "TIMESTAMP")
     private Timestamp expirationDate;
 
+    @Column(name = "on_time", nullable = false)
+    private Boolean onTime = true;
 
-    public Delivery(UUID orderId, Driver driver, DeliveryStatus status, Timestamp expirationDate) {
+
+    public Delivery(UUID orderId, Driver driver, DeliveryStatus status, Timestamp expirationDate, boolean onTime) {
         this.orderId = orderId;
         this.driver = driver;
         this.status = status;
@@ -55,7 +58,7 @@ public class Delivery {
     }
 
     @Builder
-    public static Delivery createDelivery(UUID orderId, Driver driver, DeliveryStatus status, Timestamp expirationDate) {
-        return new Delivery(orderId, driver, status, expirationDate);
+    public static Delivery createDelivery(UUID orderId, Driver driver, DeliveryStatus status, Timestamp expirationDate, boolean onTime) {
+        return new Delivery(orderId, driver, status, expirationDate, onTime);
     }
 }

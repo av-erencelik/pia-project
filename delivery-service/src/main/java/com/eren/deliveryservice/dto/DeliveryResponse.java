@@ -17,5 +17,6 @@ public class DeliveryResponse {
     private DriverResponse driver;
     private DeliveryStatus status;
     private Timestamp expirationDate;
+    private boolean onTime;
     
 }

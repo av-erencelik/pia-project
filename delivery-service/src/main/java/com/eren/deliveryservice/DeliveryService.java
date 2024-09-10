@@ -51,6 +51,11 @@ public class DeliveryService {
         enqueueDequeService.sendDeliveryExpiration(id, 60000);
     }
 
+    public List<Driver> getDrivers() {
+        log.info("Getting drivers");
+        return driverRepository.findAll();
+    }
+
     public UUID createDeliveryWithoutDriver(UUID orderId) {
         log.info("Creating delivery without driver: {}", orderId);
         Delivery delivery = new Delivery();
@@ -83,6 +88,7 @@ public class DeliveryService {
     public boolean checkDriverAvailability(UUID driverId) {
         log.info("Checking driver availability: {}", driverId);
         Optional<Driver> driver = driverRepository.findById(driverId);
+        log.info("Driver: {}", driver);
         return driver.isPresent() && driver.get().getStatus() == DriverStatus.AVAILABLE;
     }
 
@@ -92,9 +98,28 @@ public class DeliveryService {
         return drivers.stream().filter(driver -> driver.getStatus() == DriverStatus.AVAILABLE).toList();
     }
 
+    public void handleLateDelivery(UUID deliveryId) {
+        log.info("Handling late delivery: {}", deliveryId);
+        Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow();
+        if (delivery.getStatus() == DeliveryStatus.CANCELED) {
+           return;
+        }
+        if (delivery.getStatus() == DeliveryStatus.DELIVERED) {
+            return;
+        }
+        delivery.setOnTime(false);
+        deliveryRepository.save(delivery);
+    }
+
     public void completeDelivery(UUID deliveryId) {
         log.info("Completing delivery: {}", deliveryId);
         Delivery delivery = deliveryRepository.findById(deliveryId).orElseThrow();
+        if (delivery.getStatus() == DeliveryStatus.CANCELED) {
+            throw new IllegalArgumentException("Delivery is already canceled");
+        }
+        if (delivery.getStatus() == DeliveryStatus.DELIVERED) {
+            throw new IllegalArgumentException("Delivery is already delivered");
+        }
         delivery.setStatus(DeliveryStatus.DELIVERED);
         deliveryRepository.save(delivery);
         Driver driver = delivery.getDriver();
@@ -147,6 +172,7 @@ public class DeliveryService {
     private DeliveryCompleted mapDeliveryToDeliveryCompleted(Delivery delivery) {
         return DeliveryCompleted.builder()
                 .orderId(delivery.getOrderId())
+                .onTime(delivery.getOnTime())
                 .build();
     };
 
@@ -169,6 +195,7 @@ public class DeliveryService {
                 .driver(delivery.getDriver() != null ? mapDriverToDriverResponse(delivery.getDriver()) : null)
                 .status(delivery.getStatus())
                 .expirationDate(delivery.getExpirationDate())
+                .onTime(delivery.getOnTime())
                 .build();
     }
 

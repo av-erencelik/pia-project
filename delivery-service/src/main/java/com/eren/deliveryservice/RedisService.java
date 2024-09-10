@@ -9,12 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class RedisService {
 
-    private final RedisTemplate<String, String> redisTemplate;
     private final ListOperations<String, String> listOps;
     private static final String DELIVERY_QUEUE = "deliveryQueue";
 
     public RedisService(RedisTemplate<String, String> redisTemplate) {
-        this.redisTemplate = redisTemplate;
         this.listOps = redisTemplate.opsForList();
     }
 

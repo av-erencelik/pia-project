@@ -17,6 +17,7 @@ public class OrderResponse {
     private double totalPrice;
     private Timestamp createdAt;
     private OrderStatus status;
+    private boolean isRefunded;
     private List<OrderItemResponse> orderItems;
     
 }

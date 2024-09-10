@@ -74,6 +74,22 @@ public class OrderService {
 
     }
 
+    public void handleOrderCompleted(UUID orderId, Boolean onTime) {
+        log.info("Order completed with id: {}", orderId);
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
+        if (order.getStatus() == OrderStatus.DELIVERED) {
+            throw new IllegalArgumentException("Order already delivered with id: " + orderId);
+        }
+        if (order.getStatus() == OrderStatus.CANCELED) {
+            throw new IllegalArgumentException("Order already cancelled with id: " + orderId);
+        }
+        order.setStatus(OrderStatus.DELIVERED);
+        if (!onTime) {
+            order.setIsRefunded(true);
+        }
+        orderRepository.save(order);
+    }
+
     public void cancelOrder(UUID orderId) {
         log.info("Order cancelled with id: {}", orderId);
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
@@ -135,6 +151,7 @@ public class OrderService {
                 .createdAt(order.getCreatedAt())
                 .status(order.getStatus())
                 .totalPrice(order.getTotalPrice())
+                .isRefunded(order.getIsRefunded())
                 .orderItems(order.getOrderItems().stream().map(orderItem -> OrderItemResponse.builder()
                         .productId(orderItem.getProductId())
                         .productName(orderItem.getName())

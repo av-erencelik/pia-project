@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eren.deliveryservice.dto.DeliveryRequestParam;
 import com.eren.deliveryservice.dto.DeliveryResponse;
+import com.eren.deliveryservice.model.Driver;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 
+
 @RestController
 @RequiredArgsConstructor
 public class DeliveryController {
@@ -29,6 +31,12 @@ public class DeliveryController {
         return deliveryService.getDeliveries(deliveryRequestParam.getSize(), deliveryRequestParam.getPage());
     }
 
+    @GetMapping("/drivers/all")
+    public List<Driver> getMethodName() {
+        return deliveryService.getDrivers();
+    }
+    
+
     @GetMapping("/{id}")
     public DeliveryResponse getMethodName(@PathVariable UUID id) {
         return deliveryService.getDelivery(id);
@@ -38,6 +46,8 @@ public class DeliveryController {
     public void deliverOrder(@PathVariable UUID id) {
         deliveryService.completeDelivery(id);;
     }
+
+    
     
     
 }

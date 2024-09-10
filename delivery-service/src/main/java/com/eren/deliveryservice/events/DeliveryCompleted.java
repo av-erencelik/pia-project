@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeliveryCompleted {
     private UUID orderId;
+    private Boolean onTime;
 }

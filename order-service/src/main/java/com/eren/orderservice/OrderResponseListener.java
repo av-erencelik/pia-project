@@ -26,7 +26,7 @@ public class OrderResponseListener {
 
     @RabbitHandler
     public void handleDeliveryCompletedMessage(DeliveryCompleted deliveryCompleted) {
-        orderService.updateOrderStatus(deliveryCompleted.getOrderId(), OrderStatus.DELIVERED);
+        orderService.handleOrderCompleted(deliveryCompleted.getOrderId(), deliveryCompleted.getOnTime());
     }
 
     @RabbitHandler

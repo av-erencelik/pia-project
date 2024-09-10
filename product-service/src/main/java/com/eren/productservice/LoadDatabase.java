@@ -17,8 +17,8 @@ class LoadDatabase {
     CommandLineRunner initDatabase(FoodRepository repository) {
         return args -> {
             if(repository.count() == 0) {
-                log.info("Preloading " + repository.save(new Food("Samsung", 10, 5)));
-                log.info("Preloading " + repository.save(new Food("Iphone", 20, 2)));
+                log.info("Preloading " + repository.save(new Food("Pide", 10, 5)));
+                log.info("Preloading " + repository.save(new Food("Lahmacun", 20, 2)));
             }
 
         };

@@ -14,9 +14,14 @@ public class CorsGlobalConfiguration {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(Arrays.asList("*")); // Set allowed origins
-        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        corsConfiguration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));
+        
+        // Allow any origin
+        corsConfiguration.addAllowedOriginPattern("*"); // Use addAllowedOriginPattern instead of addAllowedOrigin for more flexibility
+        // Allow any method
+        corsConfiguration.addAllowedMethod("*");
+        // Allow any header
+        corsConfiguration.addAllowedHeader("*");
+        // Allow credentials
         corsConfiguration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
