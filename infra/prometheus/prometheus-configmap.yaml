@@ -16,5 +16,6 @@ data:
         static_configs:
           - targets: ['rabbitmq:15692']  # Scraping RabbitMQ exporter metrics
       - job_name: 'product-service'
+        metrics_path: '/actuator/prometheus'
         static_configs:
           - targets: ['product-service:80']  # Scraping product-service metrics
