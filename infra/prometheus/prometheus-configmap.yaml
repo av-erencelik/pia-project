@@ -15,3 +15,6 @@ data:
       - job_name: 'rabbitmq'
         static_configs:
           - targets: ['rabbitmq:15692']  # Scraping RabbitMQ exporter metrics
+      - job_name: 'product-service'
+        static_configs:
+          - targets: ['product-service:80']  # Scraping product-service metrics
