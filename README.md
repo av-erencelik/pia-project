@@ -4,6 +4,8 @@
 
 ![Mimari](docs/images/Mimari.png)
 
+[Ayrıntılar](https://erencelik.atlassian.net/wiki/external/Yjg2OTFmNmYxMjM2NGMyMGJkMTc1NmQ0MGViNGI2NmE)
+
 ## Event Bus
 
 ![Eventbus](docs/images/Eventbus.png)
