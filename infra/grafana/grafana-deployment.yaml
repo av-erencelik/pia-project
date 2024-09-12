@@ -19,6 +19,26 @@ spec:
           image: grafana/grafana:latest
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-pvc
+  labels:
+    app: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
 ---
 apiVersion: v1
 kind: Service
@@ -32,5 +52,5 @@ spec:
     app: grafana
   ports:
     - protocol: TCP
-      port: 5000 # Port to expose externally
-      targetPort: 3000 # Port on which Grafana is running
+      port: 5000
+      targetPort: 3000
