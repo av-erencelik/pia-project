@@ -104,3 +104,10 @@ Ardından new dashboard ekliyoruz. Gerekli dashboardların id'si ve hangi servis
 - 10991 - Rabbitmq monitoring - prometheus
 - 4701 - Spring Boot monitoring - prometheus
 - loglar için explore sekmesinde query çalıştırabiliriz tüm loglar için olan query `{app=~".+"}`
+
+## Tüm Dokümantasyonlar
+
+- [Mimari](https://erencelik.atlassian.net/wiki/external/Yjg2OTFmNmYxMjM2NGMyMGJkMTc1NmQ0MGViNGI2NmE)
+- [ITSM ve Servislerin Takibi](https://erencelik.atlassian.net/wiki/external/ZTBkM2U3MDU3YTVlNGUwNWE5YTJjYWQ2ZTNiODE0MDY)
+- [Jenkins ve Jira](/docs/jenkins-jira.md)
+- [Veritabanı](/docs/veritabanı.md)
