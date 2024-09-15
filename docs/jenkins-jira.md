@@ -45,3 +45,17 @@ Jira ve Jenkins, yazılım geliştirme süreçlerini daha düzenli, verimli ve �
 ### Confluence Dokümantasyon
 
 ![Confluence](images/confluence.png)
+
+## Jenkinsi Nasıl Kullandım?
+
+### Ortak Kütüphane
+
+![Kütüphane](images/common-library.png)
+
+Mikroservislerin build aşamasında çok kez kullanılan aynı işlevi ortak bir kütüphaneye aktarıp oradan da jenkinse tanımlayarak kullandım ve daha temiz ve okunabilir bir pipeline oluşturabildim.
+
+### Pipeline
+
+![Pipeline](images/jenkinsfile.png)
+
+Tüm servisler tek bir repoda olduğu için her pipeline çalıştığında tekrar tekrar her servisin build'ını almamak için önceki build alınan commitle pipeline çalışırken ki commit arasındaki farklara bakarak ilgili servisler değişmiş mi kontrol edip eğer bir değişiklik varsa ilgili servisleri build alıp docker imagelerini oluşturan bir pipeline oluşturarak bu süreci efektik bir şekilde yönetebildim.
