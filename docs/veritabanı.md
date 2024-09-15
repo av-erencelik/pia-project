@@ -1,5 +1,7 @@
 # Veritabanı Şeması Dokümantasyonu
 
+![Veritabanı Şeması](images/db-diagram.png)
+
 Bu doküman, **sipariş**, **ürün** ve **teslimat** servisleri için mikroservis mimarisinde kullanılan veritabanı şema tasarımını açıklamaktadır. Şema, servislerin tabloları arasındaki ilişkileri göstermek için tek bir diagramda birleşik bir şekilde gösterilmiştir, ancak her bir tablo ayrı veritabanlarında bulunmaktadır. Veritabanı yönetim sistemi olarak **PostgreSQL** kullanılmıştır.
 
 ## 1. **Ürün Servisi**
