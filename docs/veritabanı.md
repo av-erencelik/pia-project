@@ -28,7 +28,7 @@ Bu servis, siparişler ve siparişlerle ilişkili ürünleri yönetir. `order` v
 - **total_price**: Siparişin toplam fiyatını temsil eden bir `double`.
 - **is_refunded**: Siparişin iade edilip edilmediğini gösteren bir `bool`.
 - **created_at**: Siparişin ne zaman oluşturulduğunu belirten bir `timestamp`.
-- **status**: Siparişin mevcut durumunu temsil eden bir enum `order_status` (örneğin: `created`, `completed`, `canceled`).
+- **status**: Siparişin mevcut durumunu temsil eden bir enum `order_status`
 
 ### `order_items` Tablosu
 
@@ -50,7 +50,7 @@ Bu servis, teslimatları ve teslimat için sorumlu sürücülerin durumunu yöne
 - **id**: Her bir teslimatı benzersiz şekilde tanımlayan bir `UUID`.
 - **order_id**: Teslim edilen siparişi temsil eden bir `UUID` (foreign key, `order` tablosundan).
 - **driver_id**: Teslimattan sorumlu sürücüyü temsil eden bir `UUID` (foreign key, `driver` tablosundan).
-- **status**: Teslimatın durumunu temsil eden bir enum `delivery_status` (örneğin: `processing`, `on_delivery`, `completed`).
+- **status**: Teslimatın durumunu temsil eden bir enum `delivery_status`
 - **expiration_date**: Teslimatın tamamlanması gereken maksimum süreyi belirten bir `timestamp`.
 - **on_time**: Teslimatın belirtilen süre içinde tamamlanıp tamamlanmadığını gösteren bir `bool`.
 
